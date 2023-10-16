@@ -1,0 +1,10 @@
+module DataMUX (
+    input wire [31:0] ram_result,
+    input wire [31:0] alu_result,
+    input wire mux_select,  // MUX selection control
+    output wire [31:0] data_output
+);
+
+assign data_output = (mux_select) ? ram_result : alu_result;
+
+endmodule

@@ -1,0 +1,10 @@
+module WriteRegisterMux (
+    input wire [4:0] write_register,
+    input wire [4:0] read_register_2,
+    input wire reg_write_enable,
+    output wire [4:0] selected_register
+);
+
+assign selected_register = (reg_write_enable == 1'b0) ? write_register : read_register_2;
+
+endmodule

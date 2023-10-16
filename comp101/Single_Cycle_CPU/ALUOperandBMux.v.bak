@@ -1,0 +1,10 @@
+module ALUOperandBMux (
+    input wire [31:0] sign_extended_imm,
+    input wire [31:0] read_register_2,
+    input wire select,  // Control signal to select the input (0 for sign_extended_imm, 1 for read_register_2)
+    output wire [31:0] operand_b
+);
+
+assign operand_b = (select == 1'b0) ? sign_extended_imm : read_register_2;
+
+endmodule

@@ -1,0 +1,180 @@
+DEPTH = 64;  
+WIDTH = 32;
+ADDRESS_RADIX = HEX;
+DATA_RADIX = HEX;
+
+CONTENT
+BEGIN
+    0: 00000020; -- ADD rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for ADD)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+    
+    4: 20090001; -- ADDI rt, rs, imm
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for ADD)
+    -- alu_src = 1 (ALU source is immediate value)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[20:16] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[20:16] (Write register for Register File)
+
+    8: 00000021; -- ADDU rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0000 (ALU operation for ADDU)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[11:7] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[11:7] (Write register for Register File)
+
+    C: 00000000; -- SLL rd, rt, shamt
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for SLL)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    10: 00000002; -- SRL rd, rt, shamt
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for SRL)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    14: 00000027; -- NOR rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0100 (ALU operation for NOR)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    18: 00000026; -- XOR rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0101 (ALU operation for XOR)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    1C: 00000025; -- OR rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0101 (ALU operation for OR)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    20: 340C0000; -- ORI rt, rs, imm
+    -- Control Signals:
+    -- alu_op = 4'b0101 (ALU operation for OR)
+    -- alu_src = 1 (ALU source is immediate value)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[20:16] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[20:16] (Write register for Register File)
+
+    24: 00000024; -- AND rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0100 (ALU operation for AND)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+    28: 30090001; -- ANDI rt, rs, imm
+    -- Control Signals:
+    -- alu_op = 4'b0100 (ALU operation for AND)
+    -- alu_src = 1 (ALU source is immediate value)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[20:16] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[20:16] (Write register for Register File)
+
+    2C: 00000022; -- SUB rd, rs, rt
+    -- Control Signals:
+    -- alu_op = 4'b0001 (ALU operation for SUB)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[15:11] (Write register address)
+    -- mem_op = 3'b000 (No memory operation)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[15:11] (Write register for Register File)
+
+
+    30: 8C090000; -- LW rt, imm(rs)
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for ADD)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 1 (Enable register write)
+    -- reg_write_address = instruction[20:16] (Write register address)
+    -- mem_op = 3'b001 (Memory operation for LW)
+    -- mem_to_reg = 1 (Memory to register on)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = instruction[20:16] (Write register for Register File)
+
+    34: AC0A0000; -- SW rt, imm(rs)
+    -- Control Signals:
+    -- alu_op = 4'b0010 (ALU operation for ADD)
+    -- alu_src = 0 (ALU source is operand B)
+    -- reg_write_enable = 0 (Disable register write)
+    -- reg_write_address = instruction[11:7] (No register write)
+    -- mem_op = 3'b010 (Memory operation for SW)
+    -- mem_to_reg = 0 (Memory to register off)
+    -- read_register_1 = instruction[25:21] (Read register 1)
+    -- read_register_2 = instruction[20:16] (Read register 2)
+    -- write_register = 5'b00000 (No write register)
+   
+    38: 00000000; -- NOP (Unused)
+    -- Control Signals:
+    -- Set control signals to default values or as needed for NOP
+END;

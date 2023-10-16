@@ -1,0 +1,92 @@
+module ControlUnit (
+    input wire clk,
+    input wire reset,
+    input wire [31:0] instruction,           // Input instruction	 
+    output reg [3:0] alu_op,                // ALU operation control
+    output reg alu_src,                     // ALU source control
+    output reg reg_write_enable,            // Register write enable control
+    output reg mem_to_reg,                  // Memory to register control
+    output reg [4:0] read_register_1,       // Read register 1 control
+    output reg [4:0] read_register_2,       // Read register 2 control
+    output reg [4:0] write_register,        // Write register control for RegisterFile
+    output reg rom_read_enable,             // Signal to control ROM read enable
+    output reg ram_read_enable,             // Signal to control RAM read enable
+    output reg ram_write_enable             // Signal to control RAM write enable
+);
+
+// Opcode definitions for MIPS instructions
+localparam OP_ADD = 6'b000000;
+localparam OP_ADDI = 6'b001000;
+localparam OP_ADDU = 6'b000000; // Add the opcode for ADDU
+localparam OP_SLL = 6'b000000; // Add the opcode for SLL
+localparam OP_SRL = 6'b000000; // Add the opcode for SRL
+localparam OP_NOR = 6'b000000; // Add the opcode for NOR
+localparam OP_XORI = 6'b001110; // Add the opcode for XORI
+localparam OP_ORI = 6'b001101; // Add the opcode for ORI
+localparam OP_ANDI = 6'b001100; // Add the opcode for ANDI
+localparam OP_LW = 6'b100011;
+localparam OP_SW = 6'b101011;
+localparam OP_FETCH_INSTRUCTION = 6'b000000;
+
+// Default control signals
+always @* begin
+    alu_op = 4'b0000;
+    alu_src = 1'b0;
+    reg_write_enable = 1'b0;
+    mem_to_reg = 1'b0;
+    rom_read_enable = 1'b0;
+    ram_read_enable = 1'b0;
+    ram_write_enable = 1'b0;
+    read_register_1 = 5'b0;
+    read_register_2 = 5'b0;
+    write_register = 5'b0;
+    
+    // Assign alu_op bits based on instruction[5:0]
+    alu_op[1:0] = instruction[5:0];
+    
+    // Assign values to control signals based on opcode
+    case (instruction[31:26]) // Extract opcode bits [31:26]
+        OP_ADD, OP_ADDU: begin
+            alu_op = 4'b0010;
+            reg_write_enable = 1'b1;
+        end
+        OP_ADDI: begin
+            alu_op = 4'b0010;
+            alu_src = 1'b1;
+            reg_write_enable = 1'b1;
+        end
+        OP_SLL, OP_SRL: begin
+            alu_op = 4'b0010;
+            alu_src = 1'b0;
+            reg_write_enable = 1'b1;
+        end
+        OP_NOR: begin
+            alu_op = 4'b0100;
+            reg_write_enable = 1'b1;
+        end
+        OP_XORI, OP_ORI, OP_ANDI: begin
+            alu_op = 4'b0101;
+            alu_src = 1'b1;
+            reg_write_enable = 1'b1;
+        end
+        OP_LW: begin
+            alu_op = 4'b0010;
+            alu_src = 1'b0;
+            reg_write_enable = 1'b1;
+            mem_to_reg = 1'b1;
+            ram_read_enable = 1'b1;
+        end
+        OP_SW: begin
+            alu_op = 4'b0010;
+            alu_src = 1'b0;
+            ram_write_enable = 1'b1;
+        end
+        default: begin
+            alu_op = 4'b0000; // Default ALU operation
+            reg_write_enable = 1'b0; // Disable register write for all other instructions
+            mem_to_reg = 1'b0; // Default memory to register control
+        end
+    endcase
+end
+
+endmodule

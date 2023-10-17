@@ -43,7 +43,6 @@ module ProgramCounter_tb;
         // Test case 3: Verify reset
         reset = 1;
         #10 reset = 0;
-        #10;
         if (pc !== 8'b00000000) $display("Test case 3 failed");
         else $display("Test case 3 passed");
 

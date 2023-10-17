@@ -1,8 +1,8 @@
 module ProgramCounter (
-    input wire clk,             // Clock input
-    input wire reset,           // Reset signal (active high)
-	 input wire enable_increment, // Input selector from the control unit to enable increment
-    output reg [7:0] pc         // Program counter output to fetch instructions memory (ROM)
+    input wire clk,                          // Clock input
+    input wire reset,                        // Reset signal (active high)
+	  input wire enable_increment,             // Input selector from the control unit to enable increment
+    output reg [7:0] pc = 8'b00000000        // Program counter output to fetch instructions memory (ROM)
 );
 
     // initial value of the program counter

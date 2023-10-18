@@ -8,7 +8,10 @@ module ALU (
     output wire [31:0] alu_result,
     output wire zero_flag,
     output wire [9:0] ram_address,
-	 output overflow // 10-bit wide address for the RAM
+	 output overflow, // 10-bit wide address for the RAM
+	 output zero,
+	 less
+	 
 );
 
 reg [31:0] temp_result; // Declare a temporary reg for ALU result
@@ -104,7 +107,6 @@ always @(posedge clk or posedge reset) begin
 				temp_result <= operand_A + operand_B;
 				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
 				end
-				4'b1101: temp_result <=(operand_A<operand_B)?1:0;//slt
             default: temp_result <= 31'b0;                   // Default to zero for an undefined operation
         endcase
     end
@@ -113,6 +115,7 @@ end
 assign alu_result = temp_result; // Assign the temporary result to alu_result
 assign zero_flag = (temp_result == 31'b0) ? 1'b1 : 1'b0; // Set zero flag based on temp_result
 assign overflow=over_flow_temp;
+assign zero=(alu_result===0)1:0;
 assign ram_address = alu_result[31:0]; // Assign the lower 5 bits of ALU result as the RAM address
-
+assign less=(alu_result[31]==1)1:0;
 endmodule

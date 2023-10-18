@@ -10,6 +10,7 @@ wire [31:0]BT;
 wire [31:0]BT_or_next_pc;
 wire [4:0] rom_address;
 wire alu_src;
+wire jumptwocon;
 wire write_en;
 wire jump;
 wire [31:0]jump_or_next_pc_or_branch;
@@ -24,15 +25,23 @@ wire [31:0] write_data;  // Explicit declaration for write_data signal
 wire [31:0] read_data_1;  // Explicit declaration for read_data_1 signal
 wire [31:0] read_data_2;  // Explicit declaration for read_data_2 signal
 wire [4:0] ram_address;
+wire zero;
+wire less;
 wire [3:0] alu_control;
 wire [31:0] ram_result;
+wire branch_or_not;
 wire mem_reg_selector;
 wire [31:0] mem_reg_result;
 wire ram_read_enable;
 wire ram_write_enable;
 wire [31:0] alu_operand_A;  // Explicit declaration for alu_operand_A
 wire [31:0] operand_B;      // Explicit declaration for operand_B
-
+wire branchnotequal;
+wire brachlessthat;
+wire branchgreaterthan;
+wire branchlessthanorequal;
+wire branchgreaterthanorequal;
+wire brancheq;
 // Instantiate the Program Counter module
 ProgramCounter program_counter (
     .clk(MAX10_CLK1_50),    // input for clock
@@ -50,9 +59,16 @@ Branch_Target_calculator(
 		BT,
 		);
 		
+		
+
+
+
+
+		
+assign branch_or_not=( (brancheq&(zero)) || (branchnotequal &(~zero)) ||  (brachlessthat&(less)) || (branchgreaterthanorequal & (zero&~less)) ||  (branchlessthanorequal & (zero&less)) );
 mux_2x1(pc_next//this mux takes the branch target if it is a branch instruction
 	,BT
-	,branch
+	,branch_or_not
 	,BT_or_next_pc);
 	
 mux_2x1(BT_or_next_pc//this mux takes the jump adress if its a jump instruction
@@ -85,7 +101,14 @@ ControlUnit control_unit (
 	 .write_register(write_register),
 	 //.rom_read_enable(rom_read_enable),
     .ram_read_enable(ram_read_enable),
-	 .ram_write_enable(ram_write_enable)
+	 .ram_write_enable(ram_write_enable),
+	  .jump(jump),
+	 	 .branchnotequal(branchnotequal),
+		.brachlessthat(brachlessthat),
+	.branchgreaterthan(branchgreaterthan),
+	.branchlessthanorequal(branchlessthanorequal),
+	.branchgreaterthanorequal(branchgreaterthanorequal),
+	.brancheq(brancheq)
 
 );
 
@@ -114,7 +137,11 @@ ALU my_alu (
     .alu_control(alu_control),
     .alu_result(alu_result),
     .zero_flag(zero_flag),
-	 .ram_address(ram_address)
+	 .ram_address(ram_address),
+	 .shmant(instruction[10:6]),
+	 .zero(zero),
+	 .less(less)
+	 
 );
 
 

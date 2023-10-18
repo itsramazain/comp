@@ -104,13 +104,13 @@ begin
         read_register_2 <= 5'b0;
         write_register <= 5'b0;
         pc_increment <= 1'b0;
-		  jump=0;
-		  branchnotequal=0;
-			brachlessthat=0;
-			branchgreaterthan=0;
-			branchlessthanorequal=0;
-		branchgreaterthanorequal=0;
-	 brancheq=0;
+		  jump<=0;
+		  branchnotequal<=0;
+			brachlessthat<=0;
+			branchgreaterthan<=0;
+			branchlessthanorequal<=0;
+		branchgreaterthanorequal<=0;
+	 brancheq<=0;
 		  end
 	else 
 		begin
@@ -120,6 +120,18 @@ begin
 											case(instruction[5:0])
 												FUN_ADD:
 												begin
+			
+
+
+
+			
+        
+        
+        
+        
+       
+       
+		
 													pc_increment <= 1'b1;
 													mem_to_reg <= 1'b0;
 													alu_src <= 1'b1;
@@ -132,12 +144,14 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];  // send reg2 -> register file -> ALU_MUX -> ALU operand B
 														write_register <= instruction[15:11];
-														 branchnotequal=0;
-														brachlessthat=0;
-														branchgreaterthan=0;
-														branchlessthanorequal=0;
-													branchgreaterthanorequal=0;
-												 brancheq=0;
+														 branchnotequal<=0;
+														brachlessthat<=0;
+														branchgreaterthan<=0;
+														branchlessthanorequal<=0;
+													branchgreaterthanorequal<=0;
+												 brancheq<=0;
+												 jump<=0;
+											
 														
 														
 												end
@@ -156,16 +170,27 @@ begin
 												alu_src <= 1'b1;
 												pc_increment <= 1'b1;
 												alu_op <= 4'b0011;
+												
+												
+												
 												alu_src <= 1'b1;
 												reg_write_enable <= 1'b1;
 												read_register_1 <= instruction[25:21];
-												write_register <= instruction[20:16];
+												read_register_2 <= instruction[20:16];  // send reg2 -> register file -> ALU_MUX -> ALU operand B
+												write_register <= instruction[15:11];
 												  branchnotequal=0;
-												brachlessthat=0;
-												branchgreaterthan=0;
-												branchlessthanorequal=0;
-											branchgreaterthanorequal=0;
-										 brancheq=0;
+												brachlessthat<=0;
+												branchgreaterthan<=0;
+												branchlessthanorequal<=0;
+											branchgreaterthanorequal<=0;
+										 brancheq<=0;
+										 jump<=0;
+										 
+										  
+        
+        
+		  
+		
 														
 														
 													
@@ -187,11 +212,11 @@ begin
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
 														 
-														brachlessthat=0;
-														branchgreaterthan=0;
-														branchlessthanorequal=0;
-													branchgreaterthanorequal=0;
-												 brancheq=0;
+														brachlessthat<=0;
+														branchgreaterthan<=0;
+														branchlessthanorequal<=0;
+													branchgreaterthanorequal<=0;
+												 brancheq<=0;
 												end
 												
 											FUN_SRL:
@@ -202,13 +227,13 @@ begin
 														reg_write_enable <= 1'b1;
 														read_register_1 <= instruction[20:16];
 														write_register <= instruction[15:11];
-														 jump=0;
-														 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+														 jump<=0;
+														 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
 														
@@ -222,13 +247,13 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];
 														write_register <= instruction[15:11];
-														 jump=0;
-														 branchnotequal=0;
-														brachlessthat=0;
-														branchgreaterthan=0;
-														branchlessthanorequal=0;
-													branchgreaterthanorequal=0;
-												 brancheq=0;
+														 jump<=0;
+														 branchnotequal<=0;
+														brachlessthat<=0;
+														branchgreaterthan<=0;
+														branchlessthanorequal<=0;
+													branchgreaterthanorequal<=0;
+												 brancheq<=0;
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
 														
@@ -241,12 +266,13 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];
 														write_register <= instruction[15:11];
-														  branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+														  branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
+													 jump<=0;
 														
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
@@ -262,16 +288,17 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];
 														write_register <= instruction[15:11];
+														jump=0;
 															 
 														
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
-														 branchnotequal=0;
-														brachlessthat=0;
-														branchgreaterthan=0;
-														branchlessthanorequal=0;
-													branchgreaterthanorequal=0;
-												 brancheq=0;
+														 branchnotequal<=0;
+														brachlessthat<=0;
+														branchgreaterthan<=0;
+														branchlessthanorequal<=0;
+													branchgreaterthanorequal<=0;
+												 brancheq<=0;
 												end
 												
 												
@@ -284,12 +311,13 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];
 														write_register <= instruction[15:11];
-														jump=0;
-														 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
+														jump<=0;
+												
+														 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
 													 brancheq=0;
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
@@ -307,13 +335,13 @@ begin
             			reg_write_enable <= 1'b1;
             			read_register_1 <= instruction[25:21];
             			write_register <= instruction[20:16]; 
-							jump=0;
-								 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+							jump<=0;
+								 branchnotequal<=0;
+								brachlessthat<=0;
+								branchgreaterthan<=0;
+								branchlessthanorequal<=0;
+								branchgreaterthanorequal<=0;
+								brancheq<=0;
 					 
 					end
 				OP_ADDU:
@@ -326,13 +354,13 @@ begin
 														read_register_1 <= instruction[25:21];
 														read_register_2 <= instruction[20:16];
 														write_register <= instruction[15:11];
-														 jump=0;
-														 	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+														 jump<=0;
+														 	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 														end
 					
 				OP_ANDI:
@@ -343,16 +371,16 @@ begin
 							reg_write_enable <= 1'b1;
 							read_register_1 <= instruction[25:21];
 							write_register <= instruction[20:16];
-								 jump=0;
+								 jump<=0;
 							
 						 ram_read_enable <= 1'b0;
 							ram_write_enable <= 1'b0;
-							 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+							 branchnotequal<=0;
+							brachlessthat<=0;
+							branchgreaterthan<=0;
+							branchlessthanorequal<=0;
+							branchgreaterthanorequal<=0;
+							brancheq<=0;
 					end
 				
 					OP_ORI:
@@ -363,7 +391,7 @@ begin
 							reg_write_enable <= 1'b1;
 							read_register_1 <= instruction[25:21];
 							write_register <= instruction[20:16];
-								 jump=0;
+								 jump<=0;
 									 branchnotequal=0;
 															brachlessthat=0;
 															branchgreaterthan=0;
@@ -381,13 +409,14 @@ begin
 														alu_src <= 1'b1;
 														reg_write_enable <= 1'b1;
 														read_register_1 <= instruction[25:21];
-														write_register <= instruction[20:16];
-														 	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+														read_register_2 <= instruction[20:16];
+														write_register <= instruction[15:11];
+														 	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 														
 													 ram_read_enable <= 1'b0;
 														ram_write_enable <= 1'b0;
@@ -406,13 +435,14 @@ begin
             			ram_read_enable <= 1'b1;
             			read_register_1 <= instruction[25:21];
             			write_register <= instruction[20:16];
-							 jump=0;
-							 	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+							
+							 jump<=0;
+							 	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 						 
 					  
 					end
@@ -424,13 +454,14 @@ begin
             			ram_write_enable <= 1'b1;
             			read_register_1 <= instruction[25:21];
             			read_register_2 <= instruction[20:16];
-							 jump=0;
-							 	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+							write_register <= 5'b0;
+							 jump<=0;
+							 	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 						 
 					  
 					end
@@ -446,13 +477,13 @@ begin
         read_register_2 <= 5'b0;
         write_register <= 5'b0;
         pc_increment <= 1'b1;
-		  jump=1;
-		  	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+		  jump<=1;
+		  	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 		  end
 		  
 		  OP_BEQ:
@@ -465,15 +496,15 @@ begin
         ram_write_enable <= 1'b0;
         read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
+        write_register <= 5'b0;
         pc_increment <= 1'b1;
-		  jump=0;
-		 	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=1;
+		  jump<=0;
+		 	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=1;
 		  
 		  end
 		   OP_BNE:
@@ -486,16 +517,15 @@ begin
         ram_write_enable <= 1'b0;
          read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
         write_register <= 5'b0;
         pc_increment <= 1'b1;
-		  jump=0;
-		 	 branchnotequal=1;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+		  jump<=0;
+		 	 branchnotequal<=1;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 		  end
 		  
 		  OP_BLE:
@@ -508,16 +538,16 @@ begin
         ram_write_enable <= 1'b0;
         read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
         write_register <= 5'b0;
+   
         pc_increment <= 1'b1;
-		  jump=0;
-		  	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=1;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+		  jump<=0;
+		  	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=1;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 		  
 		  end
 		  
@@ -532,17 +562,16 @@ begin
         ram_write_enable <= 1'b0;
          read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
-        
         write_register <= 5'b0;
+        
         pc_increment <= 1'b1;
-		  jump=0;
-		  	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=0;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=1;
-													 brancheq=0;
+		  jump<=0;
+		  	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=0;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=1;
+													 brancheq<=0;
 		  
 		  end
 		   OP_BGT:
@@ -555,16 +584,16 @@ begin
         ram_write_enable <= 1'b0;
          read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
         write_register <= 5'b0;
+        
         pc_increment <= 1'b1;
-		  jump=0;
-		  	 branchnotequal=0;
-															brachlessthat=0;
-															branchgreaterthan=1;
-															branchlessthanorequal=0;
-														branchgreaterthanorequal=0;
-													 brancheq=0;
+		  jump<=0;
+		  	 branchnotequal<=0;
+															brachlessthat<=0;
+															branchgreaterthan<=1;
+															branchlessthanorequal<=0;
+														branchgreaterthanorequal<=0;
+													 brancheq<=0;
 		  
 		  end
 		   OP_BLT:
@@ -577,16 +606,16 @@ begin
         ram_write_enable <= 1'b0;
          read_register_1 <= instruction[25:21];
         read_register_2 <= instruction[20:16];
-        write_register <= instruction[15:11];
         write_register <= 5'b0;
+    
         pc_increment <= 1'b1;
-		  jump=0;
-		 	 branchnotequal=0;
-			brachlessthat=1;
-			branchgreaterthan=0;
-			branchlessthanorequal=0;
-			branchgreaterthanorequal=0;
-			brancheq=0;
+		  jump<=0;
+		 	 branchnotequal<=0;
+			brachlessthat<=1;
+			branchgreaterthan<=0;
+			branchlessthanorequal<=0;
+			branchgreaterthanorequal<=0;
+			brancheq<=0;
 		  
 		  end
 		   

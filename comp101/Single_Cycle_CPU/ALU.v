@@ -10,7 +10,7 @@ module ALU (
     output wire [9:0] ram_address,
 	 output overflow, // 10-bit wide address for the RAM
 	 output zero,
-	 less
+	 output less
 	 
 );
 

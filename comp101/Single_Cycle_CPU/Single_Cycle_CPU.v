@@ -26,13 +26,17 @@ wire [31:0] read_data_1;  // Explicit declaration for read_data_1 signal
 wire [31:0] read_data_2;  // Explicit declaration for read_data_2 signal
 wire [4:0] ram_address;
 wire zero;
+wire jr;
+wire [31:0]reg_or_mem_or_ra;
 wire less;
 wire [3:0] alu_control;
 wire [31:0] ram_result;
 wire branch_or_not;
 wire mem_reg_selector;
+wire [31:0]jump_or_next_pc_or_branch_or_jr;
 wire [31:0] mem_reg_result;
 wire ram_read_enable;
+wire jal;
 wire ram_write_enable;
 wire [31:0] alu_operand_A;  // Explicit declaration for alu_operand_A
 wire [31:0] operand_B;      // Explicit declaration for operand_B
@@ -65,13 +69,18 @@ Branch_Target_calculator(
 
 
 		
-assign branch_or_not=( (brancheq&(zero)) || (branchnotequal &(~zero)) ||  (brachlessthat&(less)) || (branchgreaterthanorequal & (zero&~less)) ||  (branchlessthanorequal & (zero&less)) );
-mux_2x1(pc_next//this mux takes the branch target if it is a branch instruction
+assign branch_or_not=( (brancheq&(zero)) || (branchnotequal &(~zero)) ||  (brachlessthat&(less)) || (branchgreaterthanorequal & (zero&~less)) ||  (branchlessthanorequal & (zero&less)) ||(jal) );
+
+
+
+
+
+mux_2x1 chooseBTORnextPC(pc_next//this mux takes the branch target if it is a branch instruction
 	,BT
 	,branch_or_not
 	,BT_or_next_pc);
 	
-mux_2x1(BT_or_next_pc//this mux takes the jump adress if its a jump instruction
+mux_2x1 chooseJUMP(BT_or_next_pc//this mux takes the jump adress if its a jump instruction
 	,{{pc_next},{instruction[25:0]}}
 	,jump
 	,jump_or_next_pc_or_branch);
@@ -80,9 +89,15 @@ mux_2x1(BT_or_next_pc//this mux takes the jump adress if its a jump instruction
 
 
 
+mux_2x1 jumptoregister(jump_or_next_pc_or_branch//this mux takes the register adress if jr
+	,alu_operand_A
+	,jr
+	,jump_or_next_pc_or_branch_or_jr);
+
+
 ROM32x32 rom(
     .clock(MAX10_CLK1_50),     // input for clock
-	 .address(jump_or_next_pc_or_branch),         // input - 8 bits address from PC
+	 .address(jump_or_next_pc_or_branch_or_jr),         // input - 8 bits address from PC
     .q(instruction)            // ROM output - 32 bits instruction
 );
 
@@ -108,12 +123,17 @@ ControlUnit control_unit (
 	.branchgreaterthan(branchgreaterthan),
 	.branchlessthanorequal(branchlessthanorequal),
 	.branchgreaterthanorequal(branchgreaterthanorequal),
-	.brancheq(brancheq)
+	.brancheq(brancheq),
+	.jr(jr),
+	.jal(jal)
 
 );
 
 
 // Connect RegisterFile's read_data_1 and read_data_2 to read_register_1 and read_register_2
+
+	mux_2x1(mem_reg_result,pc_next+32'd2,jal,reg_or_mem_or_ra);//this chooses to write on the reg 31 the right now pc
+
 RegisterFile register_file (
     .clock(MAX10_CLK1_50),
     .Reset(reset),
@@ -122,7 +142,7 @@ RegisterFile register_file (
     //.write_register_file(selected_register),
 	 .reg_write_address(selected_register),
     .reg_write_enable(write_en),
-    .write_data(mem_reg_result),
+    .write_data(reg_or_mem_or_ra),
     .read_data_1(alu_operand_A), // Connect read_data_1
     .read_data_2(alu_operand_B)  // Connect read_data_2
 );

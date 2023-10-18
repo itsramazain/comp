@@ -1,4 +1,5 @@
 module ALU (
+	input [4:0]shmant;
     input wire clk,	 // Clock input
     input wire reset,	 // Reset signal (active high)
     input wire [31:0] operand_A,
@@ -63,8 +64,8 @@ always @(posedge clk or posedge reset) begin
             4'b0101: temp_result <= operand_A | operand_B; // OR
             4'b0110: temp_result <= operand_A ^ operand_B; // XOR
             4'b0111: temp_result <= ~operand_A;             // NOT
-            4'b1000: temp_result <= operand_A << operand_B[31:0]; // SLL
-            4'b1001: temp_result <= operand_A >> operand_B[31:0]; // SRL
+            4'b1000: temp_result <= operand_A << shmant; // SLL
+            4'b1001: temp_result <= operand_A >> shmant; // SRL
 				4'b1010: temp_result <= ~ (operand_A | operand_B); // NOR
 				4'b1011://subu
 				begin

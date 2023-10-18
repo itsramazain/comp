@@ -7,16 +7,25 @@ module RegisterFile (
     input wire [31:0] write_data,
     input wire [4:0] reg_write_address, // Control signal from ControlUnit for write address
     output  [31:0] read_data_1,     // read data rs
-    output  [31:0] read_data_2      // read data rt
+    output  [31:0] read_data_2 ,	 // read data rt
+	 output [31:0]rin0,
+	 output [31:0]r_00,
+	 output [31:0]r_11,
+	 output [31:0]r_21
 );
 	
-
+	
+	
 	wire [31:0]rin;
+	assign rin0=rin;
+	
 	wire [31:0] r0_out,r1_out,r2_out,r3_out,r4_out,r5_out,r6_out,r7_out,r8_out,r9_out,r10_out,r11_out,r12_out,r13_out,r14_out,r15_out,r16_out,r17_out,r18_out,r19_out,r20_out,r21_out,r22_out,r23_out,r24_out,r25_out,r26_out,r27_out,r28_out,r29_out,r30_out,r31_out;
-
+	assign r_00=r0_out;
+	assign r_11=r1_out;
+	assign r_21=r2_out;
 	dec dee(reg_write_enable, reg_write_address, rin);
 	
-	register r0(32'b0,clock,1,r0_out,rin[31]);
+	register r0(32'b0,clock,1'b1,r0_out,rin[31]);
 	register r1(write_data,clock,Reset,r1_out,rin[30]);
 	register r2(write_data,clock,Reset,r2_out,rin[29]);
 	register r3(write_data,clock,Reset,r3_out,rin[28]);

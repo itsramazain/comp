@@ -14,7 +14,7 @@ module ALU (
 	 
 );
 
-reg [31:0] temp_result; // Declare a temporary reg for ALU result
+reg [32:0] temp_result; // Declare a temporary reg for ALU result
 reg over_flow_temp;
 
 wire [31:0]twos_complement_A;
@@ -34,13 +34,14 @@ always @(posedge clk or posedge reset) begin
         case (alu_control)
             4'b0010:
 				begin
-				temp_result <= $signed(operand_A) + $signed(operand_B); // ADD
-				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
+				temp_result <= signed(operand_A) + signed(operand_B); // ADD
+				over_flow_temp=((temp_result[31]<0)&(operand_A<0)&(operand_B<0))||((temp_result[31]>0)&(operand_A<0)&(operand_B<0));
 				end
             4'b0011: // SUB
 				
 				begin
-				over_flow_temp=((operand_A -operand_B>0)&(operand_A<0)&(operand_B>0))||((operand_A -operand_B<0)&(operand_A>0)&(operand_B<0));
+				temp_result <= operand_A -operand_B;
+				over_flow_temp=((temp_result[31]>0)&(operand_A<0)&(operand_B>0))||((temp_result[31]<0)&(operand_A>0)&(operand_B<0));
 					case({operand_A[31],operand_B[31]})
 						00: //both are positive  
 							temp_result <= operand_A + twos_complement_B;
@@ -72,8 +73,8 @@ always @(posedge clk or posedge reset) begin
 				4'b1010: temp_result <= ~ (operand_A | operand_B); // NOR
 				4'b1011://subu
 				begin
-				temp_result=operand_A - operand_B;
-				over_flow_temp=((temp_result>0)&(operand_A<0)&(operand_B>0))||((temp_result<0)&(operand_A>0)&(operand_B<0));
+				temp_result=operand_A  +wos_complement_B;
+				over_flow_temp=temp_result[32];
 				
 				if (over_flow_temp)
 					temp_result=operand_A +(twos_complement_B);
@@ -105,14 +106,14 @@ always @(posedge clk or posedge reset) begin
 				4'b1100://addu
 				begin
 				temp_result <= operand_A + operand_B;
-				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
+				over_flow_temp=temp_result[32];
 				end
             default: temp_result <= 31'b0;                   // Default to zero for an undefined operation
         endcase
     end
 end
 
-assign alu_result = temp_result; // Assign the temporary result to alu_result
+assign alu_result = temp_result[31:0]; // Assign the temporary result to alu_result
 assign zero_flag = (temp_result == 31'b0) ? 1'b1 : 1'b0; // Set zero flag based on temp_result
 assign overflow=over_flow_temp;
 assign zero=(alu_result===0)?1:0;

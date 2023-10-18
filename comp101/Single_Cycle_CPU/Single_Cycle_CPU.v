@@ -6,11 +6,14 @@ module Single_Cycle_CPU (
 wire [7:0] pc_next;           // PC Output (ROM address)
 wire pc_increment;            // fetch instruction control signal
 wire [31:0] instruction;      // instruction fetched from ROM (send to Control unit to decode)
-
-
+wire [31:0]BT;
+wire [31:0]BT_or_next_pc;
 wire [4:0] rom_address;
 wire alu_src;
 wire write_en;
+wire jump;
+wire [31:0]jump_or_next_pc_or_branch;
+wire branch;
 wire [4:0] selected_register;
 wire [31:0] alu_result;  // Explicit declaration for alu_result signal
 wire zero_flag;  // Explicit declaration for zero_flag signal
@@ -39,9 +42,31 @@ ProgramCounter program_counter (
 );
 
 // Instantiate the ROM module     -- containts 256 words each word is 32 bits
+
+
+Branch_Target_calculator(
+		instruction[15:0],//immedate filed from the instruction
+		pc_next, //nest instruction
+		BT,
+		);
+		
+mux_2x1(pc_next//this mux takes the branch target if it is a branch instruction
+	,BT
+	,branch
+	,BT_or_next_pc);
+	
+mux_2x1(BT_or_next_pc//this mux takes the jump adress if its a jump instruction
+	,{{pc_next},{instruction[25:0]}}
+	,jump
+	,jump_or_next_pc_or_branch);
+	
+	
+
+
+
 ROM32x32 rom(
     .clock(MAX10_CLK1_50),     // input for clock
-	 .address(pc_next),         // input - 8 bits address from PC
+	 .address(jump_or_next_pc_or_branch),         // input - 8 bits address from PC
     .q(instruction)            // ROM output - 32 bits instruction
 );
 
@@ -67,8 +92,8 @@ ControlUnit control_unit (
 
 // Connect RegisterFile's read_data_1 and read_data_2 to read_register_1 and read_register_2
 RegisterFile register_file (
-    .clk(MAX10_CLK1_50),
-    .reset(reset),
+    .clock(MAX10_CLK1_50),
+    .Reset(reset),
     .read_register_1(read_register_1),
     .read_register_2(read_register_2),
     //.write_register_file(selected_register),

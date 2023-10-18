@@ -3,7 +3,7 @@ module ALU (
     input wire reset,	 // Reset signal (active high)
     input wire [31:0] operand_A,
     input wire [31:0] operand_B,
-    input wire [31:0] alu_control,
+    input wire [4:0] alu_control,
     output wire [31:0] alu_result,
     output wire zero_flag,
     output wire [9:0] ram_address,

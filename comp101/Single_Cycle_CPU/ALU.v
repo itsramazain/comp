@@ -3,7 +3,7 @@ module ALU (
     input wire reset,	 // Reset signal (active high)
     input wire [31:0] operand_A,
     input wire [31:0] operand_B,
-    input wire [4:0] alu_control,
+    input wire [3:0] alu_control,
     output wire [31:0] alu_result,
     output wire zero_flag,
     output wire [9:0] ram_address,
@@ -103,7 +103,7 @@ always @(posedge clk or posedge reset) begin
 				temp_result <= operand_A + operand_B;
 				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
 				end
-				
+				4'b1101: temp_result <=(operand_A<operand_B)?1:0;//slt
             default: temp_result <= 31'b0;                   // Default to zero for an undefined operation
         endcase
     end

@@ -30,7 +30,7 @@ always @(posedge clk or posedge reset) begin
         case (alu_control)
             4'b0010:
 				begin
-				temp_result <= operand_A + operand_B; // ADD
+				temp_result <= $signed(operand_A) + $signed(operand_B); // ADD
 				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
 				end
             4'b0011: // SUB
@@ -102,7 +102,7 @@ always @(posedge clk or posedge reset) begin
 				begin
 				temp_result <= operand_A + operand_B;
 				over_flow_temp=((operand_A - operand_B<0)&(operand_A<0)&(operand_B<0))||((operand_A -operand_B>0)&(operand_A<0)&(operand_B<0));
-				
+				end
 				
             default: temp_result <= 31'b0;                   // Default to zero for an undefined operation
         endcase

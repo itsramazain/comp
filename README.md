@@ -41,20 +41,13 @@ To use these modules and assemble them into a functional MIPS processor, follow 
 
 ## Testing
 
-The repository may include testbenches for some modules to help verify their correctness. You can run these testbenches to ensure that the modules are functioning as expected.
-
-## Contributions
-
-Contributions are welcome. If you find any issues or would like to enhance these modules, please fork the repository, make your changes, and create a pull request. Be sure to document any changes you make.
+The repository include testbenches for some modules to help verify their correctness. You can run these testbenches to ensure that the modules are functioning as expected.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project is licensed for Marvel Team License - see the website for details: https:\\marvel-josdc.com.
 
 ## Acknowledgments
 
-This project draws inspiration from the MIPS architecture and various Verilog processor design tutorials and textbooks. We appreciate the open-source hardware community for their valuable contributions.
+This project draws inspiration from the MIPS architecture and various Verilog processor design tutorials and textbooks. We appreciate the open-source hardware community for their valuable contributions and the JoSDC Planners and mentors.
 
----
-
-Feel free to update this README with specific details about your processor's modules and any other relevant information.

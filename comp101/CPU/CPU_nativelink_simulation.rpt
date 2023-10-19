@@ -17,7 +17,7 @@ Sim dir               :  simulation\modelsim
 
 Info: Starting NativeLink simulation with ModelSim software
 Sourced NativeLink script d:/quartus/quartus/common/tcl/internal/nativelink/modelsim.tcl
-Warning: File CPU_run_msim_gate_verilog.do already exists - backing up current file as CPU_run_msim_gate_verilog.do.bak1
+Warning: File CPU_run_msim_gate_verilog.do already exists - backing up current file as CPU_run_msim_gate_verilog.do.bak4
 Probing transcript
 ModelSim Info: # Reading C:/altera/12.1sp1/modelsim_ase/tcl/vsim/pref.tcl 
 ModelSim Info: # ERROR: No extended dataflow license exists

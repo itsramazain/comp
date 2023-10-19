@@ -1,13 +1,14 @@
 module WriteRegisterMux (
-    input wire clk,                // Clock input
-    input wire reset,              // Reset input
-    input wire [4:0] write_register,
-    input wire [4:0] read_register_2,
-    input wire reg_write_enable,
-    output wire [4:0] selected_register
+    input wire clk,                         // Clock input
+    input wire reset,                       // Reset input
+    input wire [4:0] write_register,        // Write Register
+    input wire [4:0] read_register_2,       // Read Register 2
+    input wire reg_write_enable,            // Register Write Enable
+    output wire [4:0] selected_register     // Selected Register
 );
 
-    reg [4:0] selected_register_reg;  // Register to hold the selected register
+    // Register to hold the selected register
+    reg [4:0] selected_register_reg;
 
     always @(posedge clk or posedge reset) begin
         if (reset) begin

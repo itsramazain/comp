@@ -1,56 +1,61 @@
+// This module represents the Control Unit for a MIPS-like processor.
 module ControlUnit (
-    input wire clk,
-    input wire reset,
-    input wire [31:0] instruction,           // Input instruction	 
-    output reg [3:0] alu_op,                // ALU operation control
-    output reg alu_src,                     // ALU source control
-    output reg reg_write_enable,            // Register write enable control
-    output reg mem_to_reg,                  // Memory to register control
-    output reg [4:0] read_register_1,       // Read register 1 control
-    output reg [4:0] read_register_2,       // Read register 2 control
-    output reg [4:0] write_register,        // Write register control for RegisterFile
-    output reg pc_increment,
-    output reg ram_read_enable,             // Signal to control RAM read enable
-    output reg ram_write_enable,	 // Signal to control RAM write enable
-	 output reg jump,
-	 output reg branchnotequal,
-	 output reg brachlessthat,
-	 output reg branchgreaterthan,
-	 output reg branchlessthanorequal,
-	 output reg branchgreaterthanorequal,
-	 output reg brancheq,
-	 output reg jr,
-	 output reg jal
+    input wire clk,                    // Clock input
+    input wire reset,                  // Reset input (active high)
+    input wire [31:0] instruction,     // Input instruction
+
+    output reg [3:0] alu_op,           // ALU operation control
+    output reg alu_src,                // ALU source control
+    output reg reg_write_enable,       // Register write enable control
+    output reg mem_to_reg,             // Memory to register control
+    output reg [4:0] read_register_1,  // Read register 1 control
+    output reg [4:0] read_register_2,  // Read register 2 control
+    output reg [4:0] write_register,   // Write register control for RegisterFile
+    output reg pc_increment,           // Program counter increment control
+    output reg ram_read_enable,        // Signal to control RAM read enable
+    output reg ram_write_enable,       // Signal to control RAM write enable
+    output reg jump,                   // Jump control signal
+    output reg branchnotequal,         // Branch not equal control signal
+    output reg brachlessthat,          // Branch less than control signal
+    output reg branchgreaterthan,      // Branch greater than control signal
+    output reg branchlessthanorequal,  // Branch less than or equal control signal
+    output reg branchgreaterthanorequal,     // Branch greater than or equal control signal
+    output reg brancheq,               // Branch equal control signal
+    output reg jr,                     // Jump register control signal
+    output reg jal                     // Jump and link control signal
 );
 
 
-/* instruction   __ opcode __ function filed 
-		/add        __ 000000 __  10 0000    //implemented  
-		/sub        ___ 000000 __    10 0010  //implemented
-		/and       ___ 000000 ___   10 0100  //implemented
-		/andi       __  001100 ___no function filed  //implemented
-		/or         ____ 000000 ___  10  0101     //implemented
-		/ori     ____ 00 1101 __no function filed   //implemented
-		/nor       ___ 000000 ___ 10 0111     //implemented
-		/sll   	___ 000000 __00000   //implemented
-		/srl  		_____ 00000  ____ 00 0010   //implemented
-		/addi		 ____ 00 1000 ____no functionfield   //implemented
-		/addu    ______ 001001 _______ 100001   // not implemented
-		/subu   ____ 00 0000 ____ 100011  //not  implemented
-		/xor      ____ 000000 ____ 10 0110  //implemented
-		/beq     _____ 000100 _____ no function field  //implemented
-		/bnq       ____ 000101 _____ no function field  //implemented
-		/jump   _____  000010 _____no function field  //implemented
-		jr     ____ 000000   _____ 001001   //  not implemented
-		jal    _____ 000011 ______no function field  // not implemented
-		/lw    ______   100011 ______no function field //  //implemented
-		/sw    ______  101011 ______no function field  //implemented
-		/slt ____ 000000 _____ 101010  //implemented
-		/BGT ___ 001111  __//reb loaupperimm
-		/BLT ___ 110000  __//reb load linked
-		/BLE ___ 100101  __//reb loadhw
-		/BGE ___ 100100  __//reb loadbyte
-		
+
+/*
+| Instruction | Opcode  | Function Field |
+|-------------|---------|-----------------|
+| add         | 000000  | 10 0000         |
+| sub         | 000000  | 10 0010         |
+| and         | 000000  | 10 0100         |
+| andi        | 001100  | No function     |
+| or          | 000000  | 10 0101         |
+| ori         | 001101  | No function     |
+| nor         | 000000  | 10 0111         |
+| sll         | 000000  | 00000           |
+| srl         | 000000  | 00 0010         |
+| addi        | 001000  | No function     |
+| addu        | 001001  | 100001          |
+| subu        | 000000  | 100011          |
+| xor         | 000000  | 10 0110         |
+| beq         | 000100  | No function     |
+| bnq         | 000101  | No function     |
+| jump        | 000010  | No function     |
+| jr          | 000000  | 001001          |
+| jal         | 000011  | No function     |
+| lw          | 100011  | No function     |
+| sw          | 101011  | No function     |
+| slt         | 000000  | 101010          |
+| BGT         | 001111  | Upper imm       |
+| BLT         | 110000  | Load linked     |
+| BLE         | 100101  | Load half word  |
+| BGE         | 100100  | Load byte       |
+
 
 */
     	 
@@ -92,6 +97,8 @@ localparam FUN_SRL  =6'b000010;
 localparam FUN_SUBU= 6'b100011;
 localparam FUN_JR  = 6'b001001;
 localparam FUN_SLT = 6'b101010;
+
+
 always@(posedge clk)
 begin 
 	 if (reset) begin

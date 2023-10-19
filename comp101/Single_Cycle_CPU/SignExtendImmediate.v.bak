@@ -1,8 +1,0 @@
-module SignExtendImmediate (
-    input wire [15:0] instruction,
-    output wire [31:0] sign_extended_imm
-);
-
-assign sign_extended_imm = {{12{instruction[15]}}, instruction[15:0]};
-
-endmodule

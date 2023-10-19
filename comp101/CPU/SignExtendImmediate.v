@@ -13,7 +13,7 @@ module SignExtendImmediate (
             sign_extended_imm_reg <= 32'b0;
         end else begin
             // Sign-extend the immediate value
-            sign_extended_imm_reg <= {{12{instruction[15]}}, instruction[15:0]};
+            sign_extended_imm_reg <= {{16{instruction[15]}}, instruction[15:0]};
         end
     end
 

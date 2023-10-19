@@ -6,14 +6,14 @@ module CPU (
 wire [7:0] pc_next;           // PC Output (ROM address)
 wire pc_increment;            // fetch instruction control signal
 wire [31:0] instruction;      // instruction fetched from ROM (send to Control unit to decode)
-wire [31:0]BT;
-wire [31:0]BT_or_next_pc;
+wire [31:0] BT;
+wire [31:0] BT_or_next_pc;
 wire [4:0] rom_address;
 wire alu_src;
 wire jumptwocon;
 wire write_en;
 wire jump;
-wire [31:0]jump_or_next_pc_or_branch;
+wire [31:0] jump_or_next_pc_or_branch;
 wire branch;
 wire [4:0] selected_register;
 wire [31:0] alu_result;  // Explicit declaration for alu_result signal
@@ -46,32 +46,34 @@ wire branchgreaterthan;
 wire branchlessthanorequal;
 wire branchgreaterthanorequal;
 wire brancheq;
+
+
 // Instantiate the Program Counter module
 ProgramCounter program_counter (
-    .clk(MAX10_CLK1_50),    // input for clock
-    .reset(reset),          // input for reset
-	 .enable_increment(pc_increment),
-    .pc(pc_next)            // output - 8 bits address for ROM
+    .clk(MAX10_CLK1_50),               // input for clock
+    .reset(reset),                     // input for reset
+	 .enable_increment(pc_increment),   // input for enable increment
+    .pc(pc_next)                       // output - 8 bits address for ROM
 );
 
-// Instantiate the ROM module     -- containts 256 words each word is 32 bits
 
 
-Branch_Target_calculator(
-		instruction[15:0],//immedate filed from the instruction
-		pc_next, //nest instruction
-		BT,
+// Instantiate the branch target calculator module
+Branch_Target_Calculator(
+		instruction[15:0],               //immedate filed from the instruction
+		pc_next,                         //nest instruction
+		BT
 		);
 		
-		
-
-
-
-
-		
-assign branch_or_not=( (brancheq&(zero)) || (branchnotequal &(~zero)) ||  (brachlessthat&(less)) || (branchgreaterthanorequal & (zero&~less)) ||  (branchlessthanorequal & (zero&less)) ||(jal) );
-
-
+// Choose between branch or next instruction logic				
+assign branch_or_not = ( 
+								(brancheq       & (zero))  || 
+								(branchnotequal & (~zero)) ||
+								(brachlessthat  & (less))  ||
+								(branchgreaterthanorequal & (zero&~less)) ||
+								(branchlessthanorequal & (zero&less))     ||
+								(jal) 
+										);
 
 
 
@@ -94,7 +96,7 @@ mux_2x1 jumptoregister(jump_or_next_pc_or_branch//this mux takes the register ad
 	,jr
 	,jump_or_next_pc_or_branch_or_jr);
 
-
+// Instantiate the ROM module     -- containts 256 words each word is 32 bits
 ROM32x256 rom(
     .clock(MAX10_CLK1_50),     // input for clock
 	 .address(jump_or_next_pc_or_branch_or_jr),         // input - 8 bits address from PC

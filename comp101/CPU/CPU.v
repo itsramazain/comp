@@ -46,7 +46,7 @@ wire branchgreaterthan;
 wire branchlessthanorequal;
 wire branchgreaterthanorequal;
 wire brancheq;
-wire jump_addr
+wire [7:0]jump_addr;
 
 
 assign jump_addr={6'b0,instruction[25:0]};
@@ -88,7 +88,7 @@ mux_2x1 chooseBTORnextPC(pc_next//this mux takes the branch target if it is a br
 	,BT
 	,branch_or_not
 	,BT_or_next_pc);
-	defparam n.chooseBTORnextPC=8;
+	defparam chooseBTORnextPC.n=8;
 	
 
 
@@ -98,7 +98,7 @@ mux_2x1 chooseJUMP(BT_or_next_pc//this mux takes the jump adress if its a jump i
 	,jump_addr[7:0]
 	,jump
 	,jump_or_next_pc_or_branch);
-	defparam n.chooseJUMP=8;
+	defparam chooseJUMP.n=8;
 	
 	
 
@@ -108,7 +108,7 @@ mux_2x1 jumptoregister(jump_or_next_pc_or_branch//this mux takes the register ad
 	,alu_operand_A[7:0]
 	,jr
 	,jump_or_next_pc_or_branch_or_jr);
-	defparam n.jumptoregister=8;
+	defparam jumptoregister.n=8;
 
 
 ROM32x32 rom(

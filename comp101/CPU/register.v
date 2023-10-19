@@ -1,7 +1,7 @@
-module register(D,Clock,Reset,Q,E);
-	input [31:0]D;
-	output [31:0]Q;
-	input Clock,Reset,E;
+module register(D, Clock, Reset, Q, E);
+    input [31:0] D;         // 32-bit data input
+    output [31:0] Q;        // 32-bit data output
+    input Clock, Reset, E;  // Clock, Reset, and Enable signals
 
 	
 	

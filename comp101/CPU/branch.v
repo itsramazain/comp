@@ -6,7 +6,7 @@ module Branch_Target_calculator(
 		);
 		/*becase the nextinstrction is saved in a word manner we dont need to shift it by 2*/
 		always@(*)
-			BT={immediate[15],immediate}+program_counter;
+			BT={{16{immediate[15]}},{immediate}} + program_counter;
 		
 endmodule
 

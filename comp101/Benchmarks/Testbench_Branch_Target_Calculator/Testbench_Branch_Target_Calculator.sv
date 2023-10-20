@@ -1,6 +1,6 @@
 module Testbench_Branch_Target_Calculator;
     reg [15:0] immediate;          // Input immediate value
-    reg [31:0] program_counter;    // Input program counter
+    reg [7:0] program_counter;    // Input program counter
     wire [7:0] BT;                 // Output branch target
 
     // Instantiate the Branch_Target_Calculator module

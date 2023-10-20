@@ -10,9 +10,7 @@ wire [7:0]BT;
 wire [7:0]BT_or_next_pc;
 wire [4:0] rom_address;
 wire alu_src;
-wire jumptwocon;
 wire write_en;
-wire jump;
 wire [7:0]jump_or_next_pc_or_branch;
 wire branch;
 wire [4:0] selected_register;
@@ -49,7 +47,7 @@ wire brancheq;
 wire [7:0]jump_addr;
 
 
-assign jump_addr={6'b0,instruction[25:0]};
+assign jump_addr=instruction[7:0];
 
 
  

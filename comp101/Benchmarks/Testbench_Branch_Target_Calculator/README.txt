@@ -19,24 +19,24 @@ quit -sim
 # Testing Branch_Target_Calculator module...
 # ==========================================
 # Test Case 1: immediate (Positive immediate value) = 1234
-# Test Case 1: program_counter = 80000000
-# Test Case 1: BT = 34
+# Test Case 1: program_counter (8 bits) = 80
+# Test Case 1: BT = b4
 # ==========================================
 # Test Case 2: immediate (Sign-extended to -1) = ffff
-# Test Case 2: Program counter with +4 offset = 80000004
-# Test Case 2: BT = 03
+# Test Case 2: Program counter (8 bits) with +4 offset = 84
+# Test Case 2: BT = 83
 # ==========================================
 # Test Case 3: immediate (Sign-extended to 32767) = 7fff
-# Test Case 3: Program counter with +8 offset = 80000008
-# Test Case 3: BT = 07
+# Test Case 3: Program counter (8 bits) with +8 offset = 88
+# Test Case 3: BT = 87
 # ==========================================
 # Test Case 4: immediate (Sign-extended to 0) = 0000
-# Test Case 4: Program counter with +12 offset = 8000000c
-# Test Case 4: BT = 0c
+# Test Case 4: Program counter (8 bits) with +12 offset = 8c
+# Test Case 4: BT = 8c
 # ==========================================
 # Test Case 5: immediate (Sign-extended to -32768) = 8000
-# Test Case 5: Program counter with +16 offset = 80000010
-# Test Case 5: BT = 10
+# Test Case 5: Program counter (8 bits) with +16 offset = 90
+# Test Case 5: BT = 90
 # ==========================================
 # ** Note: $finish    : Testbench_Branch_Target_Calculator.sv(69)
 #    Time: 2500 ps  Iteration: 0  Instance: /Testbench_Branch_Target_Calculator

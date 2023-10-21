@@ -36,7 +36,8 @@ module ALU (
                 4'b0011:                // SUB
                     begin
                         temp_result <= operand_A - operand_B;
-                        over_flow_temp = ((temp_result[31] > 0) & (operand_A[31] < 0) & (operand_B[31] > 0));
+                        over_flow_temp = ((temp_result[31] > 0) & (operand_A[31] < 0) & (operand_B[31] > 0)) ||
+                        ((temp_result[31] < 0) & (operand_A[31] > 0) & (operand_B[31] > 0));
                         case ({operand_A[31], operand_B[31]})
                             00:  // Both are positive
                                 temp_result <= operand_A + twos_complement_B;

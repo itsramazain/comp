@@ -1,4 +1,4 @@
-module mux_2x1 (
+module mux2x1 (
     input [31:0] i0,  // Input data for '0' selector
     input [31:0] i1,  // Input data for '1' selector
     input sel,        // Selection control (0 for 'i0', 1 for 'i1')

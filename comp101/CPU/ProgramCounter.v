@@ -6,14 +6,14 @@ module ProgramCounter (
 );
 
     // initial value of the program counter
-    reg [7:0] initial_pc = 8'b00000000;       // 8-bits address - 256 locations in ROM 32 bits each location (8192 bits) - 1 M9K block used  
+    reg [7:0] initial_pc = 8'b00000000;     // 8-bits address - 256 locations in ROM 32 bits each location (8192 bits) - 1 M9K block used  
 
     // synchronous always block to increment the program counter
     always @(negedge clk or posedge reset) begin
         if (reset) begin
-            pc <= initial_pc;                 // Reset the program counter to the initial value
+            pc <= initial_pc;   // Reset the program counter to the initial value
         end else if(enable_increment) begin
-            pc <= pc + 1;                     // Increment the program counter by 1 every cycle if fetch signal is 1 
+            pc <= pc + 1;       // Increment the program counter by 1 every cycle if fetch signal is 1 
         end
     end
 

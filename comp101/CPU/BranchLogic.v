@@ -14,8 +14,8 @@ assign branch_or_not =
     (brancheq & zero) || 
     (branchnotequal & ~zero) || 
     (brachlessthat & less) || 
-    (branchgreaterthanorequal & (zero & ~less)) || 
-    (branchlessthanorequal & (zero & less)) || 
+    (branchgreaterthanorequal & (zero || ~less)) || 
+    (branchlessthanorequal & (zero || less)) || 
     (jal);
 
 endmodule

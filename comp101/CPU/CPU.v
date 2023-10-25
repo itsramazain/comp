@@ -44,7 +44,7 @@ wire [31:0] ram_result;        // Data from RAM
 wire branch_or_not;            // Branch or Not Signal
 wire mem_reg_selector;         // Memory or Register Selector
 wire [7:0] jump_or_next_pc_or_branch_or_jr; // MUX Output (Jump or Next PC or Branch or JR)
-//wire [31:0] mem_reg_result;    // Data Output from Memory or Register File
+wire [31:0] mem_reg_result;    // Data Output from Memory or Register File
 wire ram_read_enable;          // RAM Read Enable Signal
 wire jal;                      // Jump and Link Instruction Signal
 wire ram_write_enable;         // RAM Write Enable Signal

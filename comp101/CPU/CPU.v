@@ -9,14 +9,14 @@ wire pc_increment;             // Fetch instruction control signal
 wire [31:0] instruction;       // Instruction fetched from ROM (sent to Control unit to decode)
 
 // Branch Target Calculation Signals
-wire [31:0] BT;                // Branch Target
-wire [31:0] BT_or_next_pc;     // MUX Output (Branch Target or Next PC)
+wire [7:0] BT;                // Branch Target
+wire [7:0] BT_or_next_pc;     // MUX Output (Branch Target or Next PC)
 wire [4:0] rom_address;        // Address to access ROM
 wire alu_src;                  // ALU Source Selector
 wire jumptwocon;               // Jump to CONtrol unit
 wire write_en;                 // Register Write Enable
 wire jump;                     // Jump Instruction Signal
-wire [31:0] jump_or_next_pc_or_branch; // MUX Output (Jump or Next PC or Branch)
+wire [7:0] jump_or_next_pc_or_branch; // MUX Output (Jump or Next PC or Branch)
 wire branch;                   // Branch Instruction Signal
 
 // Register File Signals
@@ -37,13 +37,13 @@ wire zero;                     // Zero Signal
 wire jr;                       // Jump to Register Signal
 
 // Additional Control Signals
-wire [31:0] reg_or_mem_or_ra;  // MUX Output (Register File or Memory or RA)
+wire [7:0] reg_or_mem_or_ra;  // MUX Output (Register File or Memory or RA)
 wire less;                     // Less Signal
 wire [3:0] alu_control;        // ALU Control Signals
 wire [31:0] ram_result;        // Data from RAM
 wire branch_or_not;            // Branch or Not Signal
 wire mem_reg_selector;         // Memory or Register Selector
-wire [31:0] jump_or_next_pc_or_branch_or_jr; // MUX Output (Jump or Next PC or Branch or JR)
+wire [7:0] jump_or_next_pc_or_branch_or_jr; // MUX Output (Jump or Next PC or Branch or JR)
 //wire [31:0] mem_reg_result;    // Data Output from Memory or Register File
 wire ram_read_enable;          // RAM Read Enable Signal
 wire jal;                      // Jump and Link Instruction Signal
@@ -97,17 +97,17 @@ Mux2x1 BT_OR_nextPC (
     .out(BT_or_next_pc)        // Output signal, either the branch target or next program counter
 );
 
-		
+ defparam BT_OR_nextPC.n=8;
 	
 // Instantiate a 2x1 multiplexer to select the jump address if it's a jump instruction
 Mux2x1 chooseJUMP (
     .i0(BT_or_next_pc),                       // Input 0: Branch target or next program counter
-    .i1({{pc_next}, {instruction[25:0]}}),    // Input 1: Concatenation of next program counter and instruction bits[25:0]
+    .i1(instruction[7:0]),    // Input 1: Concatenation of next program counter and instruction bits[25:0]
     .sel(jump),                               // Select signal to choose between inputs
     .out(jump_or_next_pc_or_branch)           // Output signal, either the jump address or next program counter or branch target
 );
 
-
+ defparam hooseJUMP.n=8;
 
 
 // Instantiate a 2x1 multiplexer to select the register address if it's a JR (Jump Register) instruction
@@ -118,7 +118,7 @@ Mux2x1 jumptoregister (
     .out(jump_or_next_pc_or_branch_or_jr)   // Output signal, either the selected address or ALU operand A
 );
 
-
+ defparam jumptoregister.n=8;
 
 // Instantiate the ROM module     -- containts 256 words each word is 32 bits
 ROM32x256 rom(
@@ -161,18 +161,19 @@ ControlUnit control_unit (
 // Connect RegisterFile's read_data_1 and read_data_2 to read_register_1 and read_register_2
 Mux2x1 reg_or_ra_selector (
     .i0(mem_reg_result),        // Input 0: Data from ALU result
-    .i1(pc_next + 32'd2),       // Input 1: PC + 2 for the jal instruction
+    .i1(pc_next + 8'd2),       // Input 1: PC + 2 for the jal instruction
     .sel(jal),                  // Selector: Determines the output
     .out(reg_or_mem_or_ra)      // Output: Selected data for the register or ra
 );
 
+defparam reg_or_ra_selector.n=8;
 
 RegisterFile register_file (
     .clock(MAX10_CLK1_50),                       // Clock input
     .Reset(reset),                               // Reset signal
     .read_register_1(read_register_1),           // Read register 1 address
     .read_register_2(read_register_2),           // Read register 2 address
-    .reg_write_address(selected_register),       // Register address for write (if used)
+    .reg_write_address(write_register),       // Register address for write (if used)
     .reg_write_enable(write_en),                 // Register write enable signal
     .write_data(reg_or_mem_or_ra),               // Data to be written to the register file
     .read_data_1(alu_operand_A),                 // Data read from read_register_1
@@ -199,19 +200,13 @@ ALU my_alu (
 
 // ALU Operand Mux: Selects between sign-extended immediate value and ALU operand B.
 Mux2x1 alu_operand (
-    .i0(sign_extended_imm),   // Input 0: Sign-extended immediate value
-    .i1(alu_operand_B),       // Input 1: ALU operand B (read_register_2)
+    .i0(alu_operand_B),   // Input 0: Sign-extended immediate value
+    .i1(sign_extended_imm),       // Input 1: ALU operand B (read_register_2)
     .sel(alu_src),            // Selector: Control signal to choose input (0 for sign-extended_imm, 1 for read_register_2)
     .out(operand_B)           // Output: Selected ALU operand B
 );
 
-// Write Register Mux: Selects between write register input and ALU operand B (read_register_2).
-Mux2x1 write_reg (
-    .i0(write_register),         // Input 0: Write register input
-    .i1(read_register_2),        // Input 1: ALU operand B (read_register_2)
-    .sel(mem_reg_selector),      // Selector: Register write enable signal
-    .out(selected_register)      // Output: Selected register for write
-);
+
 
 
 SignExtendImmediate sign_extend (
@@ -232,8 +227,8 @@ RAM32x1024 ram (
 
 // Memory Register Select Mux: Selects between data from RAM and ALU result.
 Mux2x1 mem_reg_select (
-    .i0(ram_result),          // Input 0: Data from RAM
-    .i1(alu_result),          // Input 1: Data from ALU result
+    .i0(alu_result),          // Input 0: Data from RAM
+    .i1(ram_result),          // Input 1: Data from ALU result
     .sel(mem_reg_selector),   // Selector: MUX selection control
     .out(mem_reg_result)      // Output: Selected data for memory register
 );

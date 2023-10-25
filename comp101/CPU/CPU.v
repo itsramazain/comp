@@ -107,7 +107,7 @@ Mux2x1 chooseJUMP (
     .out(jump_or_next_pc_or_branch)           // Output signal, either the jump address or next program counter or branch target
 );
 
- defparam hooseJUMP.n=8;
+ defparam chooseJUMP.n=8;
 
 
 // Instantiate a 2x1 multiplexer to select the register address if it's a JR (Jump Register) instruction

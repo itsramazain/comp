@@ -6,7 +6,7 @@ module Branch_Target_Calculator(
 
     // The next instruction is saved in a word manner, so no need to shift it by 2
     always @(*) begin
-        BT = immediate[15:0] + program_counter;  // Calculate the branch target
+        BT = immediate[7:0] + program_counter;  // Calculate the branch target
     end
 
 endmodule

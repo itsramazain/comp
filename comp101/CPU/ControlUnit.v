@@ -214,7 +214,7 @@ begin
 												begin
 												pc_increment <= 1'b1;
 												  alu_op <= 4'b1000; // Set the ALU control for SLL
-														alu_src <= 1'b0;
+														alu_src <= 1'b1;
 														reg_write_enable <= 1'b1;
 														read_register_1 <= instruction[20:16];
 														write_register <= instruction[15:11];
@@ -235,7 +235,7 @@ begin
 												begin
 												pc_increment <= 1'b1;
 													alu_op <= 4'b1001; // Set the ALU control for SRL
-														alu_src <= 1'b0;
+														alu_src <= 1'b1;
 														reg_write_enable <= 1'b1;
 														read_register_1 <= instruction[20:16];
 														write_register <= instruction[15:11];
@@ -347,7 +347,7 @@ begin
 					 ram_read_enable <= 1'b0;
 							ram_write_enable <= 1'b0;
 					 alu_op <= 4'b0010; // ALU control for ADD
-            			alu_src <= 1'b1;
+            			alu_src <= 1'b0;
             			reg_write_enable <= 1'b1;
             			read_register_1 <= instruction[25:21];
             			write_register <= instruction[20:16]; 
@@ -387,7 +387,7 @@ begin
 					begin
 					pc_increment <= 1'b1;
 						alu_op <= 4'b0100; // Set ALU control for AND
-							alu_src <= 1'b1;
+							alu_src <= 1'b0;
 							reg_write_enable <= 1'b1;
 							read_register_1 <= instruction[25:21];
 							write_register <= instruction[20:16];
@@ -410,7 +410,7 @@ begin
 					begin
 					pc_increment <= 1'b1;
 					alu_op <= 4'b0101; // Set ALU control for OR
-							alu_src <= 1'b1;
+							alu_src <= 1'b0;
 							reg_write_enable <= 1'b1;
 							read_register_1 <= instruction[25:21];
 							write_register <= instruction[20:16];

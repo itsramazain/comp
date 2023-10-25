@@ -37,7 +37,7 @@ wire zero;                     // Zero Signal
 wire jr;                       // Jump to Register Signal
 
 // Additional Control Signals
-wire [7:0] reg_or_mem_or_ra;  // MUX Output (Register File or Memory or RA)
+wire [31:0] reg_or_mem_or_ra;  // MUX Output (Register File or Memory or RA)
 wire less;                     // Less Signal
 wire [3:0] alu_control;        // ALU Control Signals
 wire [31:0] ram_result;        // Data from RAM
@@ -166,7 +166,7 @@ Mux2x1 reg_or_ra_selector (
     .out(reg_or_mem_or_ra)      // Output: Selected data for the register or ra
 );
 
-defparam reg_or_ra_selector.n=8;
+
 
 RegisterFile register_file (
     .clock(MAX10_CLK1_50),                       // Clock input

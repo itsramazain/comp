@@ -37,7 +37,7 @@ $display("======================================================================
         zero = 0;
         #10;
         $display("Scenario 2: branchnotequal and zero are false, expect branch_or_not to be false");
-        $display("Scenario 2: branch_or_not = %b (Expect 0)", branch_or_not);
+        $display("Scenario 2: branch_or_not = %b (Expect 1)", branch_or_not);
 $display("========================================================================");
         // Scenario 3: brachlessthat and less are true, expect branch_or_not to be true
         branchnotequal = 0;
